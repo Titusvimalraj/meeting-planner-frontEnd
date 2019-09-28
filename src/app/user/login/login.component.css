@@ -3,6 +3,10 @@
     max-width: 50vw;
     width: 100%;
   }
+
+  html{
+    height: auto;
+  }
   
   .example-full-width {
     width: 70%;

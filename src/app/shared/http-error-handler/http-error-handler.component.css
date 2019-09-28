@@ -1,0 +1,38 @@
+img {
+    width: 15vw;
+    
+}
+.logo{
+    width: 20vw;
+}
+.jumbotron {
+    height: 100%;
+}
+
+div {
+    word-wrap: break-word;
+}
+
+body{
+    background-color: #e4ecf7;
+    height: auto;
+}
+
+html{
+    height: auto;
+}
+
+body::-webkit-scrollbar {
+    width: 2vw;
+    background-color: white;
+    
+} 
+
+body::-webkit-scrollbar-track{
+    background-color: white;
+}
+
+body::-webkit-scrollbar-thumb{
+    background-color: #789cff;
+    border-radius: 0.5vw;
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { GlobalConfig } from 'src/app/globalConfig';
 
 @Component({
   selector: 'app-http-error-handler',
@@ -11,13 +12,13 @@ export class HttpErrorHandlerComponent implements OnInit {
 
   public errorMessage;
 
-  constructor(private _route: ActivatedRoute, private _location: Location) { }
+  constructor(private _router: Router,private _route: ActivatedRoute, private _location: Location) { }
 
   ngOnInit() {
     this.errorMessage = this._route.snapshot.queryParamMap.get('errorMessage');
   }
   public goBack = () => {
-    this._location.back();
+    this._router.navigate([`/${GlobalConfig.apiVersion}/users/login`]);
   }
 
 }

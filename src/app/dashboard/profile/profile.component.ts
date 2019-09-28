@@ -79,7 +79,7 @@ export class ProfileComponent implements OnInit {
           // alert('Some error occured');
           this.toastr.error('Some error occured', 'Error');
         })
-    });
+    },2000);
   }
 
   public goBackToPreviousPage(): any {
