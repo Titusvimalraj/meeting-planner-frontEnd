@@ -1,0 +1,102 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+</head>
+
+<body style="display:flex;justify-content:center">
+
+  <div class="container-fluid d-flex justify-content-center" style="background-color: #ff7369;padding: 0vh 1vw 1vh 1vw">
+    <div class="fixed-top" *ngIf="progressBar">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+
+
+    <div class="row d-flex justify-content-center align-items-center"
+      style="background-color:blanchedalmond;width:70vw;">
+      <div class="jumbotron" style="margin: 0 0 0 0;padding:1vh 1vw 1vh 1vw">
+        <h1 class="display-4">Meeting Planner!</h1>
+        <p class="lead">Make yourself comfortable in organising your schedules to not be late in anything you want to
+          do!</p>
+      </div>
+      <div class="card" style="width: 80vw;padding: 1vh 1vw 1vh 1vw">
+        <div class="col-12 d-flex justify-content-center" style="padding: 1vh 1vw 1vh 1vw">
+          <form #loginForm="ngForm" class="example-form">
+            <div class="col-12 d-flex justify-content-center">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Email" [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                  required autofocus>
+                <mat-hint>user@example.com</mat-hint>
+                <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                  Please enter a valid email address
+                </mat-error>
+                <mat-error *ngIf="emailFormControl.hasError('required')">
+                  Email is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-12 d-flex justify-content-center">
+
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
+                  [formControl]="passwordFormControl" [errorStateMatcher]="matcher" required>
+                <mat-hint>enter your password used while signing up</mat-hint>
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="passwordFormControl.hasError('required')">
+                  Password is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-12 d-flex justify-content-center" style="padding-top:40px">
+
+              <button mat-raised-button color="primary"
+                [disabled]="passwordFormControl.hasError('required') || emailFormControl.hasError('required') || emailFormControl.hasError('email')"
+                (click)="signinFunction()">Login</button>
+
+            </div>
+          </form>
+        </div>
+        <div class="col-12 d-flex justify-content-center" style="padding: 1vh 1vw 1vh 1vw">
+          <button mat-raised-button color="accent" (click)="goToSignUp()">Sign up</button> &nbsp; &nbsp;
+          <button mat-raised-button color="warn" data-toggle="modal" data-target="#forgotPassword">Forgot
+            Password</button>
+        </div>
+        <mat-hint style="text-align: center">Click Elsewhere in the window to enable to Login button if password is
+          saved already on the browser</mat-hint>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" #forgotPassModal id="forgotPassword" #send tabindex="-1" role="dialog"
+    aria-labelledby="forgotPasswordLabel" aria-hidden="true">
+    <div class="modal-dialog" id="forgotPassword1" role="dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="forgotPasswordLabel">Forgot Password</h5>
+          <button type="button" class="close" id="forgotPasswordModal" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <label for="inputModalEmail">Enter your email</label>
+          <input type="email" id="inputModalEmail" class="form-control" name="emailModal" placeholder="Email address"
+            [(ngModel)]="emailModal" #emailModalAttr="ngModel" required autofocus>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" id="send" class="btn btn-primary" [disabled]="emailModalAttr.invalid"
+            (click)="validateUser();">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

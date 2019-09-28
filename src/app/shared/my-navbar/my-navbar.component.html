@@ -1,0 +1,49 @@
+
+ <!-- progress bar -->
+ <div class="fixed-top" *ngIf="progressBar">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <!-- end of progress bar -->
+
+  <!-- navbar -->
+  <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
+    <div class="container-fluid">
+
+
+    <a class="navbar-brand" style="color:white">Meeting Planner</a>
+
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    
+
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav" style="margin-right:1vw;">
+        <li class="nav-item active">
+          <a class="nav-link" (click)="navigateToHomePage()">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            {{userName}} <i *ngIf="userAdminAccess">-Admin</i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" (click)="navigateToProfile()">Profile</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logout()">Log out</a>
+          </div>
+        </li>
+        
+      </ul>
+    </div>
+
+
+  </div>
+  </nav>
+
+  <!-- end of navbar -->

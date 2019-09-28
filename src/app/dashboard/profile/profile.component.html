@@ -1,0 +1,96 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<header>
+    <app-navbar [userName]="userName"></app-navbar>
+</header>
+
+<body>
+    <div *ngIf="adminUser" class="container-fluid" style="background-image: url('assets/adminBackground.png')">
+        <div *ngIf="infoLoaded" class="container d-flex justify-content-center align-items-center"
+            style="height:100vh;">
+            <div class="row  d-flex align-items-center" style="height: 40vh;">
+                <div class="card-body profileCard">
+                    <app-first-char [firstChar]="userName[0]"></app-first-char> &nbsp;&nbsp;&nbsp;
+                    <div class="col-xs-12 col-sm-8 col-md-8">
+                        <div class="well well-sm">
+                            <div class="row" style="width: 100%">
+                                <div class="row" style="flex-direction: row">
+                                    <h4>
+                                        {{userName}}</h4>
+                                </div>
+                                <div class="row" style="flex-direction: row">
+                                    <p>
+                                        <small><cite title="{{userInfo.countryName}}">{{userInfo.countryName}}<i
+                                                    class="glyphicon glyphicon-map-marker">
+                                                </i></cite></small>
+                                        <br />
+                                        <i class="glyphicon glyphicon-envelope"></i>{{userInfo.email}}
+                                        <br />
+                                        <i class="glyphicon glyphicon-globe"></i>{{userInfo.mobileNumber}}
+                                        <br />
+                                        <i class="glyphicon glyphicon-gift"></i>{{userInfo.userType}}
+                                        <br />
+
+                                        <button type="button" class="btn btn-danger"
+                                            (click)="goBackToPreviousPage()">Back</button>
+                                    </p>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div *ngIf="!adminUser" class="container-fluid" style="background-image: url('assets/userBackground.png')">
+        <div *ngIf="infoLoaded" class="container d-flex justify-content-center align-items-center"
+            style="height:100vh;">
+            <div class="row  d-flex align-items-center" style="height: 40vh;">
+                <div class="card-body profileCard">
+                    <app-first-char [firstChar]="userName[0]"></app-first-char> &nbsp;&nbsp;&nbsp;
+                    <div class="col-xs-12 col-sm-8 col-md-8">
+                        <div class="well well-sm">
+                            <div class="row" style="width: 100%">
+                                <div class="row" style="flex-direction: row">
+                                    <h4>
+                                        {{userName}}</h4>
+                                </div>
+                                <div class="row" style="flex-direction: row">
+                                    <p>
+                                        <small><cite title="{{userInfo.countryName}}">{{userInfo.countryName}}<i
+                                                    class="glyphicon glyphicon-map-marker">
+                                                </i></cite></small>
+                                        <br />
+                                        <i class="glyphicon glyphicon-envelope"></i>{{userInfo.email}}
+                                        <br />
+                                        <i class="glyphicon glyphicon-globe"></i>{{userInfo.mobileNumber}}
+                                        <br />
+                                        <i class="glyphicon glyphicon-gift"></i>{{userInfo.userType}}
+                                        <br />
+
+                                        <button type="button" class="btn btn-danger"
+                                            (click)="goBackToPreviousPage()">Back</button>
+                                    </p>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,402 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+<header>
+  <!-- progress bar -->
+  <div class="fixed-top" id="adminDashBoardProgressBar" *ngIf="progressBar">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <!-- end of progress bar -->
+
+  <app-navbar [userName]="userName"></app-navbar>
+</header>
+
+<body *ngIf="userAdminAccess">
+
+
+
+
+  <!-- navbar -->
+  <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" style="color:white">Meeting Planner</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="input-group mb-2" style="padding-top:1vh;">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect01">Users List</label>
+      </div>
+      <select class="custom-select" id="inputGroupSelect01">
+        <option selected>Choose...</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+      </select>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            {{userName}}
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" (click)="navigateToProfile()">Profile</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logout()">Log out</a>
+          </div>
+        </li>
+        
+      </ul>
+    </div>
+  </nav> -->
+
+  <!-- end of navbar -->
+
+
+  <!-- The user selection list -->
+  <div class="input-group mb-3 selectUsers">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="inputGroupSelect01">Users</label>
+    </div>
+    <select class="custom-select customScrollBar" id="inputGroupSelect01" name="country" [(ngModel)]="selectedUserId"
+      #selectedUserAttr="ngModel" required (change)="userSelected(selectedUserId)">
+      <option *ngFor="let user of users" [value]="user.userId">
+        {{user.fullName}}
+      </option>
+    </select>
+  </div>
+  <!-- end of user selection list -->
+
+
+  <!-- calendar template -->
+
+  <div class="container-fluid scrollable" style="padding-top:1vh;padding-bottom:1vh;">
+
+    <!-- calendar components -->
+
+    <h4 style="display:flex;justify-content: center">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Add new Event
+      </button>
+      <!-- <button type="button" class="btn btn-primary" (click)="getSocketId()"> -->
+      <!-- find Socket
+      </button> -->
+      <div class="clearfix"></div>
+    </h4>
+
+    <h4 style="display:flex;justify-content: center">
+      <button type="button" class="btn btn-primary" (click)="sendReminderOnEventsSetByAdmin()">
+        Send Reminder Email
+      </button>
+      <div class="clearfix"></div>
+    </h4>
+
+
+    <div class="row text-center">
+      <div class="col-md-4">
+        <div class="btn-group">
+          <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+            (viewDateChange)="closeOpenMonthViewDay()">
+            Previous
+          </div>
+          <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+            Today
+          </div>
+          <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+            (viewDateChange)="closeOpenMonthViewDay()">
+            Next
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h4>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h4>
+      </div>
+      <div class="col-md-4">
+        <div class="btn-group">
+          <div class="btn btn-primary" (click)="setView(CalendarView.Month)"
+            [class.active]="view === CalendarView.Month">
+            Month
+          </div>
+          <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+            Week
+          </div>
+          <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+            Day
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="alert alert-info viewChangeAlertMessage">
+      <div [ngSwitch]="view">
+        <span class="viewChangerAlert" *ngSwitchCase="'month'">Click on a month label to change the view to that
+          month.</span>
+        <span class="viewChangerAlert" *ngSwitchCase="'week'">Click on a day header to change the view to that
+          day.</span>
+        <span class="viewChangerAlert" *ngSwitchCase="'day'">There is no other view to navigate to.</span>
+      </div>
+    </div>
+    <br />
+    <div [ngSwitch]="view">
+      <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+        [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+        (eventTimesChanged)="eventTimesChanged($event)" (eventClicked)="viewEvent($event)">
+      </mwl-calendar-month-view>
+      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+        [refresh]="refresh" (eventTimesChanged)="eventTimesChanged($event)" (eventClicked)="viewEvent($event)">
+      </mwl-calendar-week-view>
+      <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+        [refresh]="refresh" (eventTimesChanged)="eventTimesChanged($event)" (eventClicked)="viewEvent($event)">
+      </mwl-calendar-day-view>
+    </div>
+    <!-- calendar components -->
+
+
+    <!-- Add New Modal -->
+    <div class="modal fade" id="exampleModalCenter" role="dialog" aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Add New Event</h5>
+            <button type="button" id="modalCloseButton" class="close" data-dismiss="modal" aria-label="Close"
+              (click)="clearModalValues()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="table-responsive" style="padding: 1vh 1vw 1vh 1vw;">
+              <table class="table table-bordered">
+                <tbody>
+
+                  <tr>
+                    <th style="text-align: center">Title</th>
+                  </tr>
+                  <tr>
+                    <input type="text" class="form-control" [(ngModel)]="eventTitle" />
+                  </tr>
+                  <tr>
+                    <th style="text-align: center">Primary color</th>
+                  </tr>
+                  <tr class="d-flex justify-content-center">
+                    <input type="color" [(ngModel)]="eventColorPrimary" />
+                  </tr>
+                  <tr>
+                    <th style="text-align: center">Secondary color</th>
+                  </tr>
+                  <tr class="d-flex justify-content-center">
+
+                    <input type="color" [(ngModel)]="eventColorSecondary" />
+                  </tr>
+                  <tr>
+                    <th style="text-align: center">All Day Event</th>
+                  </tr>
+                  <tr class="d-flex justify-content-center">
+                    <mat-checkbox [(ngModel)]="eventAllDay">Yes</mat-checkbox>
+                  </tr>
+                  <tr>
+                    <th style="text-align: center">Starts at</th>
+                  </tr>
+                  <tr>
+                    <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="eventStart" [altInput]="true"
+                      [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+                      placeholder="Not set" />
+                  </tr>
+                  <tr>
+                    <th style="text-align: center">Ends at</th>
+                  </tr>
+                  <tr>
+                    <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="eventEnd" [altInput]="true"
+                      [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+                      placeholder="Not set" />
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+              (click)="clearModalValues()">Close</button>
+            <button type="submit" class="btn btn-primary" (click)="addNewEvent()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end of Add New Modal -->
+
+    <!-- Edit Event Modal -->
+
+    <ng-template #modalContent let-close="close">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Edit Event</h5>
+          <button type="button" id="editModalCloseButton" class="close" data-dismiss="modal" aria-label="Close"
+            (click)="clearModalValues(); close();">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive" style="padding: 1vh 1vw 1vh 1vw;">
+            <table class="table table-bordered">
+              <tbody>
+
+                <tr>
+                  <th style="text-align: center">Title</th>
+                </tr>
+                <tr>
+                  <input type="text" class="form-control" [(ngModel)]="modalData.title" />
+                </tr>
+                <tr>
+                  <th style="text-align: center">Primary color</th>
+                </tr>
+                <tr class="d-flex justify-content-center">
+                  <input type="color" [(ngModel)]="modalData.color.primary" />
+                </tr>
+                <tr>
+                  <th style="text-align: center">Secondary color</th>
+                </tr>
+                <tr class="d-flex justify-content-center">
+
+                  <input type="color" [(ngModel)]="modalData.color.secondary" />
+                </tr>
+                <tr>
+                  <th style="text-align: center">All Day Event</th>
+                </tr>
+                <tr class="d-flex justify-content-center">
+                  <mat-checkbox [(ngModel)]="modalData.allDay">Yes</mat-checkbox>
+                </tr>
+                <tr>
+                  <th style="text-align: center">Starts at</th>
+                </tr>
+                <tr>
+                  <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="modalData.start" [altInput]="true"
+                    [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+                    placeholder="Not set" />
+                </tr>
+                <tr>
+                  <th style="text-align: center">Ends at</th>
+                </tr>
+                <tr>
+                  <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="modalData.end" [altInput]="true"
+                    [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+                    placeholder="Not set" />
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="clearModalValues(); close();">Close</button>
+          <button type="button" class="btn btn-danger" (click)="deleteEvent()">Delete</button>
+          <button type="submit" class="btn btn-primary" (click)="saveEdit()">Save changes</button>
+        </div>
+        <div class="modal-footer text-muted">
+          Added by {{modalData.adminName}} - Admin
+        </div>
+      </div>
+    </ng-template>
+
+    <!--end of Edit Event Modal -->
+
+    <!-- view Event Modal -->
+    <ng-template #viewModal let-close="close">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">View Event</h5>
+          <button type="button" id="viewModalCloseButton" class="close" data-dismiss="modal" aria-label="Close"
+            (click)="clearModalValues(); close();">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive" style="padding: 1vh 1vw 1vh 1vw;">
+            <table class="table table-bordered">
+              <tbody>
+
+                <tr>
+                  <th style="text-align: center">Title</th>
+                </tr>
+                <tr>
+                  <div>{{modalData.title}}</div>
+                </tr>
+                <tr>
+                  <th style="text-align: center">Primary color</th>
+                </tr>
+                <tr class="d-flex justify-content-center">
+                  <input type="color" [(ngModel)]="modalData.color.primary" />
+                </tr>
+                <tr>
+                  <th style="text-align: center">Secondary color</th>
+                </tr>
+                <tr class="d-flex justify-content-center">
+                  <input type="color" [(ngModel)]="modalData.color.secondary" />
+                </tr>
+                <tr>
+                  <th style="text-align: center">All Day Event</th>
+                </tr>
+                <tr class="d-flex justify-content-center">
+                  <mat-checkbox [(ngModel)]="modalData.allDay">Yes</mat-checkbox>
+                </tr>
+                <tr>
+                  <th style="text-align: center">Starts at</th>
+                </tr>
+                <tr>
+                  <div>{{modalData.start}}</div>
+                </tr>
+                <tr>
+                  <th style="text-align: center">Ends at</th>
+                </tr>
+                <tr>
+                  <div>{{modalData.end}}</div>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="clearModalValues(); close();">Close</button>
+          <button type="button" class="btn btn-danger" (click)="deleteEvent()">Delete</button>
+        </div>
+        <div class="modal-footer text-muted">
+          Added by {{modalData.adminName}} - Admin
+        </div>
+      </div>
+    </ng-template>
+    <!--end of view Event Modal -->
+
+    <!-- reminder alert Modal -->
+    <ng-template #modalAlert let-close="close">
+      <div class="modal-header">
+        <h5 class="modal-title">Meeting Reminder</h5>
+        <button type="button" class="close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6 class="card-title">Your meeting <span><i> {{modalData.title}} </i></span> will start soon!</h6>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success" (click)="gentleReminder=true;close()">Snooze</button>
+        <button type="button" class="btn btn-outline-secondary"
+          (click)="gentleReminder=true;setValueReminder(modalData);close()">Dismiss</button>
+      </div>
+    </ng-template>
+
+    <!-- end of reminder alert Modal -->
+
+
+  </div>
+  <!-- end of calendar template -->
+</body>
+
+</html>

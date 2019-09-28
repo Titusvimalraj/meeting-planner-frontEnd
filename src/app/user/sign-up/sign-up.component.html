@@ -1,0 +1,125 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+</head>
+
+<body style="display:flex;justify-content:center">
+  <div class="container-fluid d-flex justify-content-center align-items-center"
+    style="height:100%;background-color:#5c9dff;padding: 1vh 1vw 1vh 1vw;">
+
+
+    <div class="fixed-top" *ngIf="progressBar">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+
+    <div class="row d-flex justify-content-center align-items-center row-width"
+      style="height:100vh;padding: 1vh 1vw 1vh 1vw;">
+      <div class="card card-width" style="padding: 1vh 1vw 1vh 1vw;">
+        <div class="row d-flex justify-content-center" style="padding: 1vh 5vw 1vh 5vw;">
+          <form #signUpForm="ngForm" class="example-form">
+            <!-- <div style="display: flex;justify-content:flex-end">
+          <button type="button" class="btn btn-danger buttonwidth" style="width:40%;" (click)="goBackToLoginPage()">Login</button>
+        </div> -->
+
+            <div class="example-container">
+              <mat-form-field>
+                <input matInput type="text" placeholder="Enter your First Name" [formControl]="firstNameFormControl"
+                  required>
+                <mat-error *ngIf="firstNameFormControl.invalid">{{getFirstNameErrorMessage()}}</mat-error>
+                <mat-hint>Steve</mat-hint>
+              </mat-form-field>
+
+            </div>
+
+            <div class="example-container">
+              <mat-form-field>
+                <input matInput type="text" placeholder="Enter your Last Name" [formControl]="lastNameFormControl"
+                  required>
+                <mat-error *ngIf="lastNameFormControl.invalid">{{getLastNameErrorMessage()}}</mat-error>
+                <mat-hint>Rogers</mat-hint>
+              </mat-form-field>
+
+            </div>
+
+            <div class="example-container">
+              <mat-form-field>
+                <input matInput placeholder="Enter your email" [formControl]="emailFormControl" required autofocus>
+                <mat-error *ngIf="emailFormControl.invalid">{{getEmailErrorMessage()}}</mat-error>
+                <mat-hint>user@example.com</mat-hint>
+              </mat-form-field>
+
+            </div>
+
+            <div class="example-container">
+              <mat-form-field>
+                <input matInput placeholder="Enter your password" [formControl]="passwordFormControl"
+                  [type]="hide ? 'password' : 'text'" required>
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="passwordFormControl.invalid">{{getpasswordErrorMessage()}}</mat-error>
+                <mat-hint>minimum 5 characters password should contain atleast one Uppercase and one Lowercase letters,
+                  one
+                  number</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="example-container" style="padding-top:4vh">
+              <mat-form-field>
+                <input matInput placeholder="Re-enter your password" [formControl]="confirmPassword"
+                  [type]="hide ? 'password' : 'text'" required>
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="confirmPassword.invalid">{{getConfirmPasswordErrorMessage()}}</mat-error>
+                <mat-hint>Re-enter the password to confirm</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="example-container">
+              <mat-form-field>
+                <mat-label>Country</mat-label>
+                <mat-select [(value)]="countryCode" required>
+                  <mat-option (click)="phoneCountryCode(countryName.key); CountryCode(countryName.key);"
+                    *ngFor="let countryName of countryShortName | keyvalue" [value]="countryName.value">
+                    {{countryName.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="example-container">
+              <mat-form-field>
+                <input matInput type="tel" placeholder="Enter your phone Number" #phonecode="ngModel"
+                  [(ngModel)]="phoneCode" [value]=phonecode name="phoneCode" pattern=".{11,}" required>
+              </mat-form-field>
+            </div>
+            <div class="example-container">
+              <mat-form-field>
+                <mat-label>User Type</mat-label>
+                <mat-select required>
+                  <mat-option (click)="setUserType(usersvalue.viewValue)" *ngFor="let usersvalue of userTypes"
+                    [value]="usersvalue.value">
+                    {{usersvalue.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div style="display: flex;justify-content:center">
+              <button type="button" class="btn btn-primary buttonwidth" [disabled]="signUpForm.invalid"
+                style="width:40%;" (click)="signUp()">Sign up</button> &nbsp; &nbsp;
+              <button type="button" class="btn btn-danger buttonwidth" style="width:40%;"
+                (click)="goBackToLoginPage()">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+body{
+  background-color:#5c9dff;
+}
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .example-container > * {
+    width: 100%;
+  }
+  
+  .example-right-align {
+    text-align: right;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  input.example-right-align {
+    -moz-appearance: textfield;
+  }
+
+
+  .example-form {
+    min-width: 30vw;
+    max-width: 45vw;
+    width: 100%;
+  }
+  
+  .row-width{
+    width: 40vw;
+  }
+
+  .card-width{
+    width: 80vw;
+  }
+  
+  @media only screen and (max-width:768px) {
+    .example-form{
+    min-width: 60vw;
+    max-width: 70vw;
+    }
+    .buttonwidth{
+      width: 50%;
+    }
+    .row-width{
+      width: 100vw;
+    }
+
+  }
+
+body::-webkit-scrollbar {
+    width: 2vw;
+    background-color: white;
+    
+} 
+
+body::-webkit-scrollbar-track{
+    background-color: white;
+}
+
+body::-webkit-scrollbar-thumb{
+    background-color: #789cff;
+    border-radius: 0.5vw;
+}
+
+mat-select::-webkit-scrollbar {
+  width: 2vw;
+  background-color: white;
+  
+} 
+
+mat-select::-webkit-scrollbar-track{
+  background-color: white;
+}
+
+mat-select::-webkit-scrollbar-thumb{
+  background-color: #789cff;
+  border-radius: 0.5vw;
+}
