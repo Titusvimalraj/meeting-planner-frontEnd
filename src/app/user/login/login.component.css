@@ -3,10 +3,6 @@
     max-width: 50vw;
     width: 100%;
   }
-
-  html{
-    height: auto;
-  }
   
   .example-full-width {
     width: 70%;
@@ -35,5 +31,9 @@
     .example-form{
     min-width: 70vw;
     max-width: 100vw;
+    }
+
+    html{
+      height: auto;
     }
   }
