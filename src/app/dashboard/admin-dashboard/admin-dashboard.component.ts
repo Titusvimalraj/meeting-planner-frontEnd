@@ -835,7 +835,7 @@ export class AdminDashboardComponent implements OnInit {
           } else {
             this.progressBar = false;
             this.toastr.error(apiResponse.message)
-
+            this._router.navigate(['/']);
           } // end condition
 
         }, (errorMessage) => {
