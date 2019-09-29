@@ -832,10 +832,13 @@ export class AdminDashboardComponent implements OnInit {
             this.socketService.exitSocket()
 
             this._router.navigate(['/']);
+
           } else {
+
             this.progressBar = false;
             this.toastr.error(apiResponse.message)
             this._router.navigate(['/']);
+            
           } // end condition
 
         }, (errorMessage) => {
