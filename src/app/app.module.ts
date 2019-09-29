@@ -66,6 +66,16 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ProfileComponent } from './dashboard/profile/profile.component';
+
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+
+export class CustomHammerConfig extends HammerGestureConfig  {
+    overrides = <any>{
+        'pinch': { enable: false },
+        'rotate': { enable: false }
+    }
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -147,7 +157,13 @@ import { ProfileComponent } from './dashboard/profile/profile.component';
     })
 
   ],
-  providers: [AppServiceService, SocketService],
+  providers: [
+    AppServiceService, 
+    SocketService,
+    {
+    provide: HAMMER_GESTURE_CONFIG,
+    useClass: CustomHammerConfig
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
