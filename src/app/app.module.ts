@@ -126,7 +126,10 @@ import { ProfileComponent } from './dashboard/profile/profile.component';
     ReactiveFormsModule,
     ToastrModule.forRoot({
       timeOut: 3000,
-      closeButton: true
+      closeButton: true,
+      preventDuplicates: true,
+      progressAnimation:'increasing',
+      progressBar:true
     }),
     RouterModule.forRoot([
       { path: `${GlobalConfig.apiVersion}/users/login`, component: LoginComponent, pathMatch: 'full' },
