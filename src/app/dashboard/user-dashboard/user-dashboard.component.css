@@ -1,7 +1,7 @@
 mwl-calendar-month-cell,
 mwl-calendar-day-view-hour-segment, 
 mwl-calendar-week-view-hour-segment {
-  touch-action: auto !important;
+  touch-action: pan-x pan-y !important;
 }
 
   h3 {
