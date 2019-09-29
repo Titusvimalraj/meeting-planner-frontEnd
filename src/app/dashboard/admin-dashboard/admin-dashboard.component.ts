@@ -171,6 +171,7 @@ export class AdminDashboardComponent implements OnInit {
     this.getUser();
     this.getSocketUserId();
     this.getOnlineUserList();
+    this.getUpdatesFromOtherAdmin();
 
     setInterval(() => {
       this.meetingReminder();// function to send the reminder to the user
@@ -1038,5 +1039,75 @@ export class AdminDashboardComponent implements OnInit {
 
   }//end notifyUpdatesToUser
 
+
+  public updateEvents = (userId = this.userId) => {
+    this.events = [];
+    //console.log(userId);
+
+    setTimeout(() => {
+
+      this.appService.getUserEvents(userId).subscribe(
+        (apiResponse) => {
+          //console.log(apiResponse);
+
+
+
+          //console.log(apiResponse["data"]);
+          let eventData = apiResponse.data;
+          //console.log(eventData);
+          if (apiResponse.status == 200) {
+
+            // this.toastr.success('Events Fetched Successfully', 'Success!');
+            for (let data in eventData) {
+
+              //console.log(data);
+              this.events = [
+                ...this.events,
+                {
+                  eventId: eventData[data].eventId,
+                  userId: eventData[data].userId,
+                  adminName: eventData[data].adminName,
+                  adminId: eventData[data].adminId,
+                  start: new Date(eventData[data].start),
+                  end: new Date(eventData[data].end),
+                  title: eventData[data].title,
+                  color: { primary: eventData[data].color.primary, secondary: eventData[data].color.secondary },
+                  actions: this.actions,
+                  allDay: eventData[data].allDay,
+                  draggable: false,
+                  resizable: {
+                    beforeStart: false,
+                    afterEnd: false
+                  }
+                }
+              ];
+            }
+            this.refresh.next();
+          } else {
+
+            // this.toastr.warning('No Events available')
+            this.refresh.next();
+          }
+
+        },
+        (errorMessage) => {
+
+          //console.log("Some error occured");
+          //console.log(errorMessage.errorMessage);
+          this.refresh.next();
+          this.toastr.error('Some error occured', 'Error');
+          this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
+        }
+      )
+    }, 2000);
+  }
+  public getUpdatesFromOtherAdmin = () => {
+
+    this.socketService.getUpdatesFromAdmin(this.userId).subscribe((data) => {
+      //getting message from other admin.
+      this.updateEvents();
+      this.toastr.info("Update!", data.message);
+    });
+  }
 
 }
