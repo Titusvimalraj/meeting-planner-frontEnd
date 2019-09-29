@@ -73,7 +73,7 @@ export class SignUpComponent implements OnInit {
   getpasswordErrorMessage() {
     return this.passwordFormControl.hasError('required') ? 'You must enter a value' :
       this.passwordFormControl.hasError('minlength') ? 'minimum length is 5 characters' :
-        this.passwordFormControl.hasError('pattern') ? 'password does not meet requirements' :
+        this.passwordFormControl.hasError('pattern') ? 'password does not meet requirements should contain atleast one uppercase and one lowercase letter' :
           '';
   }
 
