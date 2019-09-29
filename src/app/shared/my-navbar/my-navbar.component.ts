@@ -81,12 +81,14 @@ export class MyNavbarComponent implements OnInit {
           } else {
             this.progressBar = false;
             this.toastr.error(apiResponse.message)
+            this._router.navigate(['/']);
 
           } // end condition
 
         }, (err) => {
           this.progressBar = false;
           this.toastr.error('some error occured')
+          this._router.navigate(['/']);
 
 
         });
