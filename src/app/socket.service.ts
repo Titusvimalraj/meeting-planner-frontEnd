@@ -80,7 +80,7 @@ export class SocketService {
 
 
   addNewEventToDatabase = (eventObj: object) => {
-    console.log(eventObj);
+    //console.log(eventObj);
     this.socket.emit('event-add', eventObj);
   }
 

@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
     this.userName = Cookie.get('userName');
     this.userId = Cookie.get('userId');
     this.userType = Cookie.get('userType');
-    console.log(this.userType);
+    //console.log(this.userType);
     this.getUserInfo();
 
 
@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
     setTimeout(() => {
       this.appService.getUserInfo(this.userId).subscribe(
         response => {
-          console.log(response);
+          //console.log(response);
           this.toastr.success('got the userInfo', 'Success!');
           this.userInfo = {
             firstName: response.data.firstName,
@@ -74,8 +74,8 @@ export class ProfileComponent implements OnInit {
           this.infoLoaded = true;
         },
         error => {
-          console.log("Some error occured");
-          console.log(error.errorMessage);
+          //console.log("Some error occured");
+          //console.log(error.errorMessage);
           // alert('Some error occured');
           this.toastr.error('Some error occured', 'Error');
         })

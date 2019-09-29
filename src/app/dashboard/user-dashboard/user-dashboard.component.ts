@@ -218,19 +218,19 @@ export class UserDashboardComponent implements OnInit {
   ];
 
   public deleteEvent = () => {
-    console.log(this.modalData.eventId);
+    //console.log(this.modalData.eventId);
     this.progressBar = true;
     setTimeout(() => {
       this.appService.deleteThisEvent(this.modalData.eventId, event).subscribe(
         data => {
-          console.log(data);
+          //console.log(data);
           this.progressBar = false;
           this.toastr.success('Event Deleted successfully', 'Success!');
 
         },
         (errorMessage) => {
-          console.log("Some error occured");
-          console.log(errorMessage.errorMessage);
+          //console.log("Some error occured");
+          //console.log(errorMessage.errorMessage);
           this.progressBar = false;
           this.toastr.error('Some error occured', 'Error');
           this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
@@ -243,14 +243,14 @@ export class UserDashboardComponent implements OnInit {
       try {
 
         let closeButtonForModal = document.getElementById("editModalCloseButton");
-        console.log(closeButtonForModal);
+        //console.log(closeButtonForModal);
         closeButtonForModal.click();
       } catch (error) {
 
       }
       try {
         let closeViewModalButton = document.getElementById("viewModalCloseButton");
-        console.log(closeViewModalButton);
+        //console.log(closeViewModalButton);
         closeViewModalButton.click();
       } catch (error) {
 
@@ -264,25 +264,25 @@ export class UserDashboardComponent implements OnInit {
 
   public getEvents = (userId = this.userId) => {
     this.events = [];
-    console.log(userId);
+    //console.log(userId);
 
     setTimeout(() => {
 
       this.appService.getUserEvents(userId).subscribe(
         (apiResponse) => {
-          console.log(apiResponse);
+          //console.log(apiResponse);
 
 
 
-          console.log(apiResponse["data"]);
+          //console.log(apiResponse["data"]);
           let eventData = apiResponse.data;
-          console.log(eventData);
+          //console.log(eventData);
           if (apiResponse.status == 200) {
 
             this.toastr.success('Events Fetched Successfully', 'Success!');
             for (let data in eventData) {
 
-              console.log(data);
+              //console.log(data);
               this.events = [
                 ...this.events,
                 {
@@ -314,8 +314,8 @@ export class UserDashboardComponent implements OnInit {
         },
         (errorMessage) => {
 
-          console.log("Some error occured");
-          console.log(errorMessage.errorMessage);
+          //console.log("Some error occured");
+          //console.log(errorMessage.errorMessage);
 
           this.toastr.error('Some error occured', 'Error');
           this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
@@ -326,25 +326,25 @@ export class UserDashboardComponent implements OnInit {
 
   public updateEvents = (userId = this.userId) => {
     this.events = [];
-    console.log(userId);
+    //console.log(userId);
 
     setTimeout(() => {
 
       this.appService.getUserEvents(userId).subscribe(
         (apiResponse) => {
-          console.log(apiResponse);
+          //console.log(apiResponse);
 
 
 
-          console.log(apiResponse["data"]);
+          //console.log(apiResponse["data"]);
           let eventData = apiResponse.data;
-          console.log(eventData);
+          //console.log(eventData);
           if (apiResponse.status == 200) {
 
             // this.toastr.success('Events Fetched Successfully', 'Success!');
             for (let data in eventData) {
 
-              console.log(data);
+              //console.log(data);
               this.events = [
                 ...this.events,
                 {
@@ -376,8 +376,8 @@ export class UserDashboardComponent implements OnInit {
         },
         (errorMessage) => {
 
-          console.log("Some error occured");
-          console.log(errorMessage.errorMessage);
+          //console.log("Some error occured");
+          //console.log(errorMessage.errorMessage);
           this.refresh.next();
           this.toastr.error('Some error occured', 'Error');
           this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
@@ -495,7 +495,7 @@ export class UserDashboardComponent implements OnInit {
         this.progressBar = false;
         this.appService.editTheEvent(this.modalData.eventId, this.modalData).subscribe(
           data => {
-            console.log(data);
+            //console.log(data);
 
             this.toastr.success('Dismissed successfully', 'Success!');
             this.events = [];
@@ -505,8 +505,8 @@ export class UserDashboardComponent implements OnInit {
               , 2000)
           },
           (errorMessage) => {
-            console.log("Some error occured");
-            console.log(errorMessage.errorMessage);
+            //console.log("Some error occured");
+            //console.log(errorMessage.errorMessage);
 
             this.toastr.error('Some error occured', 'Error');
             this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
@@ -545,7 +545,7 @@ export class UserDashboardComponent implements OnInit {
 
         }
 
-        console.log(this.userList);
+        //console.log(this.userList);
 
       }); // end online-user-list
   }
@@ -560,7 +560,7 @@ export class UserDashboardComponent implements OnInit {
         .subscribe((apiResponse) => {
 
           if (apiResponse.status === 200) {
-            console.log("logout called")
+            //console.log("logout called")
 
             Cookie.delete('authtoken');
 
@@ -594,16 +594,16 @@ export class UserDashboardComponent implements OnInit {
 
   public getUser = () => {
     this.appService.getExistingUserList().subscribe(Response => {
-      console.log(Response);
+      //console.log(Response);
 
       this.users = Response.data;
-      console.log(this.users)
+      //console.log(this.users)
 
       this.toastr.success('Users retrieved successfully', 'Success!');
     },
       (errorMessage) => {
-        console.log("Some error occured");
-        console.log(errorMessage.errorMessage);
+        //console.log("Some error occured");
+        //console.log(errorMessage.errorMessage);
 
         this.toastr.error('Some error occured', 'Error');
         this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
@@ -612,7 +612,7 @@ export class UserDashboardComponent implements OnInit {
   }
 
   public userSelected = (value: string) => {
-    console.log(value);
+    //console.log(value);
     this.selectedUserId = value;
     this.userId = this.selectedUserId;
     setTimeout(() => {
@@ -640,7 +640,7 @@ export class UserDashboardComponent implements OnInit {
     let currentTime = new Date().getTime();
 
     for (let event of this.events) {
-      // console.log(event);
+      // //console.log(event);
       if (isSameDay(new Date(), event.start) && new Date(event.start).getTime() - currentTime <= 60000
         && new Date(event.start).getTime() > currentTime) {
         if (event.reminder && this.gentleReminder) {

@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
           .subscribe((apiResponse) => {
 
             if (apiResponse.status === 200) {
-              console.log(apiResponse)
+              //console.log(apiResponse)
 
               Cookie.delete('authToken', '/api/v1/users');
 
@@ -116,18 +116,18 @@ export class LoginComponent implements OnInit {
               this.appService.setToLocalStorage(apiResponse.data.userDetails)
 
               this.toastr.success(`${apiResponse.message}`, 'Success user verified!');
-              console.log(apiResponse.data.userDetails.userType);
-              console.log(typeof (apiResponse.data.userDetails.userType));
+              //console.log(apiResponse.data.userDetails.userType);
+              //console.log(typeof (apiResponse.data.userDetails.userType));
               setTimeout(() => {
 
                 if (apiResponse.data.userDetails.userType === "Admin") {
-                  console.log("Admin navigation route")
-                  console.log(Cookie.get('authToken'))
+                  //console.log("Admin navigation route")
+                  //console.log(Cookie.get('authToken'))
                   this.progressBar = false;
                   this._router.navigate([`${GlobalConfig.apiVersion}/planner`, Cookie.get('userId'), 'admin']);
                 }
                 else {
-                  console.log("User navigation route")
+                  //console.log("User navigation route")
                   this.progressBar = false;
                   this._router.navigate([`${GlobalConfig.apiVersion}/planner`, Cookie.get('userId'), 'user']);
                 }
@@ -165,13 +165,13 @@ export class LoginComponent implements OnInit {
       else {
         this.appService.checkUserExist(this.emailModal).subscribe(
           (apiResponse) => {
-            console.log(apiResponse);
+            //console.log(apiResponse);
             if (apiResponse.status === 201) {
               this.toastr.info(`${apiResponse.message}`, "Email !");
               this.progressBar = false;
             }
             if (apiResponse.status === 200) {
-              console.log('running forgetPassword')
+              //console.log('running forgetPassword')
               let x = document.getElementById('forgotPasswordModal');
               x.click();
               this.sendEmail();
@@ -191,7 +191,7 @@ export class LoginComponent implements OnInit {
    * @author Titus Vimal Raj
    */
   public sendEmail = () => {
-    console.log('inside Send Email')
+    //console.log('inside Send Email')
     this.appService.sendEmail(this.emailModal).subscribe(
       (apiResponse) => {
         if (this.appService.checkResStatus(apiResponse)) {

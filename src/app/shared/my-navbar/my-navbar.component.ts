@@ -50,7 +50,7 @@ export class MyNavbarComponent implements OnInit {
         .subscribe((apiResponse) => {
           this.progressBar = false;
           if (apiResponse.status === 200) {
-            console.log("logout called")
+            //console.log("logout called")
 
 
 
@@ -113,11 +113,11 @@ export class MyNavbarComponent implements OnInit {
     setTimeout(() => {
       this.progressBar = false;
       if (this.userType === "Admin") {
-        console.log("Admin navigation route")
-        console.log(Cookie.get('authToken'))
+        //console.log("Admin navigation route")
+        //console.log(Cookie.get('authToken'))
         this.progressBar = false;
-        console.log(this._router.url);
-        console.log(typeof this._router.url)
+        //console.log(this._router.url);
+        //console.log(typeof this._router.url)
         if (this._router.url === `/api/v1/planner/${Cookie.get('userId')}/admin`) {
           document.location.reload();
         } else {
@@ -126,7 +126,7 @@ export class MyNavbarComponent implements OnInit {
 
       }
       else {
-        console.log("User navigation route")
+        //console.log("User navigation route")
         this.progressBar = false;
         if (this._router.url === `/api/v1/planner/${Cookie.get('userId')}/user`) {
           document.location.reload();
@@ -139,10 +139,10 @@ export class MyNavbarComponent implements OnInit {
   }
 
   public userAccess = () => {
-    console.log(Cookie.get('userType'));
+    //console.log(Cookie.get('userType'));
     let userTypeValue = Cookie.get('userType');
     if (userTypeValue === 'Admin') {
-      console.log("Admin user hence access given")
+      //console.log("Admin user hence access given")
       this.userAdminAccess = true;
       return this.userAdminAccess;
     } else {

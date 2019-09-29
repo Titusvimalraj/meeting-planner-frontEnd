@@ -12,7 +12,7 @@ export class DashboardGaurdService {
   canActivate(route: ActivatedRouteSnapshot): boolean {
 
     if (Cookie.get('authToken') === undefined || Cookie.get('authToken') === '' || Cookie.get('authToken') === null) {
-      console.log("in the guard service")
+      //console.log("in the guard service")
       this.router.navigate(['/']);
       return false;
     } else {

@@ -216,7 +216,7 @@ export class AppServiceService {
  */
 
   public getUserEvents = (userId: string): Observable<any> => {
-    console.log(userId);
+    //console.log(userId);
     let myResponse = this._http.get(`${this.eventsBaseUrl}/${userId}/all?authToken=${Cookie.get('authToken')}`).catch(this.handleError);
     return myResponse;
   }
@@ -229,7 +229,7 @@ export class AppServiceService {
 */
 
   public getUserInfo = (userId: string): Observable<any> => {
-    console.log(userId);
+    //console.log(userId);
     let myResponse = this._http.get(`${this.usersBaseUrl}/${userId}/info?authToken=${Cookie.get('authToken')}`).catch(this.handleError);
     return myResponse;
   }

@@ -212,7 +212,7 @@ export class AdminDashboardComponent implements OnInit {
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        console.log(event);
+        //console.log(event);
         this.modalData = {
           eventId: event.eventId,
           userId: event.userId,
@@ -237,10 +237,10 @@ export class AdminDashboardComponent implements OnInit {
     {
       label: '<i class="fa fa-fw fa-times"></i>',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        console.log(event);
+        //console.log(event);
         this.appService.deleteThisEvent(event.eventId, event).subscribe(
           data => {
-            console.log(data);
+            //console.log(data);
 
             this.toastr.success('Event Deleted successfully', 'Success!');
             let indexValue;
@@ -261,11 +261,11 @@ export class AdminDashboardComponent implements OnInit {
             }
             this.socketService.sendEmail(emailData).subscribe(
               data => {
-                console.log(data);
+                //console.log(data);
                 this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
               },
               error => {
-                console.log(error);
+                //console.log(error);
                 this.toastr.error('Some error occured', 'Error');
               });
 
@@ -277,8 +277,8 @@ export class AdminDashboardComponent implements OnInit {
             this.notifyUpdatesToUser(dataForNotify);
           },
           (errorMessage) => {
-            console.log("Some error occured");
-            console.log(errorMessage.errorMessage);
+            //console.log("Some error occured");
+            //console.log(errorMessage.errorMessage);
 
             this.toastr.error('Some error occured', 'Error');
             this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
@@ -290,17 +290,17 @@ export class AdminDashboardComponent implements OnInit {
   ];
 
   public deleteEvent = () => {
-    console.log(this.modalData.eventId);
+    //console.log(this.modalData.eventId);
     this.progressBar = true;
     setTimeout(() => {
       this.appService.deleteThisEvent(this.modalData.eventId, event).subscribe(
         data => {
-          console.log(data);
+          //console.log(data);
           this.progressBar = false;
           this.toastr.success('Event Deleted successfully', 'Success!');
           let indexValue;
           for (let x in this.users) {
-            console.log(`delete event users index ${x}`);
+            //console.log(`delete event users index ${x}`);
             if (this.userId == this.users[x].userId) {
               indexValue = x;
               break;
@@ -318,11 +318,11 @@ export class AdminDashboardComponent implements OnInit {
             }
             this.socketService.sendEmail(emailData).subscribe(
               data => {
-                console.log(data);
+                //console.log(data);
                 this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
               },
               (errorMessage) => {
-                console.log(errorMessage);
+                //console.log(errorMessage);
                 this.toastr.error('Some error occured', 'Error');
                 this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
               });
@@ -336,8 +336,8 @@ export class AdminDashboardComponent implements OnInit {
           this.notifyUpdatesToUser(dataForNotify);
         },
         (errorMessage) => {
-          console.log("Some error occured");
-          console.log(errorMessage.errorMessage);
+          //console.log("Some error occured");
+          //console.log(errorMessage.errorMessage);
           this.progressBar = false;
           this.toastr.error('Some error occured', 'Error');
           this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
@@ -351,14 +351,14 @@ export class AdminDashboardComponent implements OnInit {
       try {
 
         let closeButtonForModal = document.getElementById("editModalCloseButton");
-        console.log(closeButtonForModal);
+        //console.log(closeButtonForModal);
         closeButtonForModal.click();
       } catch (error) {
 
       }
       try {
         let closeViewModalButton = document.getElementById("viewModalCloseButton");
-        console.log(closeViewModalButton);
+        //console.log(closeViewModalButton);
         closeViewModalButton.click();
       } catch (error) {
 
@@ -370,10 +370,10 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   public userAccess = () => {
-    console.log(Cookie.get('userType'));
+    //console.log(Cookie.get('userType'));
     let userTypeValue = Cookie.get('userType');
     if (userTypeValue === 'Admin') {
-      console.log("Admin user hence access given")
+      //console.log("Admin user hence access given")
       this.userAdminAccess = true;
       return this.userAdminAccess;
     } else {
@@ -384,7 +384,7 @@ export class AdminDashboardComponent implements OnInit {
 
   public getEvents = (userId = this.userId) => {
     this.events = [];
-    console.log(userId);
+    //console.log(userId);
     setTimeout(() => {
 
 
@@ -392,18 +392,18 @@ export class AdminDashboardComponent implements OnInit {
 
         (apiResponse) => {
 
-          console.log(apiResponse);
+          //console.log(apiResponse);
 
 
 
-          console.log(apiResponse["data"]);
+          //console.log(apiResponse["data"]);
           let eventData = apiResponse.data;
-          console.log(eventData);
+          //console.log(eventData);
           if (apiResponse.status == 200) {
             this.toastr.success('Events Fetched Successfully', 'Success!');
             for (let data in eventData) {
 
-              console.log(data);
+              //console.log(data);
               this.events = [
                 ...this.events,
                 {
@@ -429,7 +429,7 @@ export class AdminDashboardComponent implements OnInit {
             this.refresh.next();
           } else {
 
-            // console.log( `progress bar is ${this.progressBar}`)
+            // //console.log( `progress bar is ${this.progressBar}`)
             this.toastr.warning('No Events available')
 
           }
@@ -437,15 +437,15 @@ export class AdminDashboardComponent implements OnInit {
         },
         (errorMessage) => {
 
-          console.log("Some error occured");
-          console.log(errorMessage.message);
+          //console.log("Some error occured");
+          //console.log(errorMessage.message);
           // alert('Some error occured');
           this.toastr.error('Some error occured', 'Error');
           this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
         }
       );
     }, 2000);
-    // console.log( `Outside progress bar is ${this.progressBar}`)
+    // //console.log( `Outside progress bar is ${this.progressBar}`)
   }
 
   refresh: Subject<any> = new Subject();
@@ -548,13 +548,13 @@ export class AdminDashboardComponent implements OnInit {
           reminder: true
         }
 
-        console.log(eventObj);
+        //console.log(eventObj);
         this.socketService.addNewEventToDatabase(eventObj);
         this.socketService.getEventId().subscribe(data => {
-          console.log(data);
+          //console.log(data);
           // this.toastr.success('got the EventId', 'Success!');
           this.eventId = data;
-          console.log(this.eventId);
+          //console.log(this.eventId);
           this.events = [
             ...this.events,
             {
@@ -577,7 +577,7 @@ export class AdminDashboardComponent implements OnInit {
             }
           ];
           let x = document.getElementById("modalCloseButton");
-          console.log(x);
+          //console.log(x);
           x.click();
 
           let newEventObj = {
@@ -599,10 +599,10 @@ export class AdminDashboardComponent implements OnInit {
             reminder: true
           }
 
-          console.log(`new event object is ${newEventObj}`)
+          //console.log(`new event object is ${newEventObj}`)
           let indexValue;
           for (let x in this.users) {
-            console.log(`add event users index ${x}`);
+            //console.log(`add event users index ${x}`);
             if (this.userId == this.users[x].userId) {
               indexValue = x;
               break;
@@ -620,11 +620,11 @@ export class AdminDashboardComponent implements OnInit {
             }
             this.socketService.sendEmail(emailData).subscribe(
               data => {
-                console.log(data);
+                //console.log(data);
                 this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
               },
               error => {
-                console.log(error);
+                //console.log(error);
                 this.toastr.error('Some error occured', 'Error');
               });
           }, 2000);
@@ -636,8 +636,8 @@ export class AdminDashboardComponent implements OnInit {
           this.notifyUpdatesToUser(dataForNotify);
         },
           (errorMessage) => {
-            console.log("Some error occured");
-            console.log(errorMessage.errorMessage);
+            //console.log("Some error occured");
+            //console.log(errorMessage.errorMessage);
             // alert('Some error occured');
             this.toastr.error('Some error occured', 'Error');
             this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
@@ -713,7 +713,7 @@ export class AdminDashboardComponent implements OnInit {
         this.progressBar = false;
         this.appService.editTheEvent(this.modalData.eventId, this.modalData).subscribe(
           data => {
-            console.log(data);
+            //console.log(data);
 
             this.toastr.success('Event edited successfully', 'Success!');
             this.events = [];
@@ -723,7 +723,7 @@ export class AdminDashboardComponent implements OnInit {
               , 2000)
             let indexValue;
             for (let x in this.users) {
-              console.log(`save edit users index ${x}`);
+              //console.log(`save edit users index ${x}`);
               if (this.userId == this.users[x].userId) {
                 indexValue = x;
                 break;
@@ -741,11 +741,11 @@ export class AdminDashboardComponent implements OnInit {
               }
               this.socketService.sendEmail(emailData).subscribe(
                 data => {
-                  console.log(data);
+                  //console.log(data);
                   this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
                 },
                 error => {
-                  console.log(error);
+                  //console.log(error);
                   this.toastr.error('Some error occured', 'Error');
                 });
             }, 2000);
@@ -758,8 +758,8 @@ export class AdminDashboardComponent implements OnInit {
             this.notifyUpdatesToUser(dataForNotify);
           },
           (errorMessage) => {
-            console.log("Some error occured");
-            console.log(errorMessage);
+            //console.log("Some error occured");
+            //console.log(errorMessage);
             this.toastr.error('Some error occured', 'Error');
             this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
           }
@@ -769,7 +769,7 @@ export class AdminDashboardComponent implements OnInit {
 
       try {
         let closeButtonForModal = document.getElementById("editModalCloseButton");
-        console.log(closeButtonForModal);
+        //console.log(closeButtonForModal);
         closeButtonForModal.click();
 
       } catch (error) {
@@ -795,8 +795,8 @@ export class AdminDashboardComponent implements OnInit {
 
     this.socketService.onlineUserList()
       .subscribe((userList) => {
-        console.log(`online user list is this`);
-        console.log(userList);
+        //console.log(`online user list is this`);
+        //console.log(userList);
         this.userList = [];
 
         this.userList = userList;
@@ -817,7 +817,7 @@ export class AdminDashboardComponent implements OnInit {
         .subscribe((apiResponse) => {
 
           if (apiResponse.status === 200) {
-            console.log("logout called")
+            //console.log("logout called")
 
             Cookie.delete('authtoken');
 
@@ -854,16 +854,16 @@ export class AdminDashboardComponent implements OnInit {
 
   public getUser = () => {
     this.appService.getExistingUserList().subscribe(Response => {
-      console.log(Response);
+      //console.log(Response);
 
       this.users = Response.data;
-      console.log(this.users)
+      //console.log(this.users)
 
       this.toastr.success('Users retrieved successfully', 'Success!');
     },
       (errorMessage) => {
-        console.log("Some error occured");
-        console.log(errorMessage.errorMessage);
+        //console.log("Some error occured");
+        //console.log(errorMessage.errorMessage);
 
         this.toastr.error('Some error occured', 'Error');
         this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
@@ -872,7 +872,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   public userSelected = (value: string) => {
-    console.log(value);
+    //console.log(value);
     this.selectedUserId = value;
     this.userId = this.selectedUserId;
     setTimeout(() => {
@@ -887,26 +887,26 @@ export class AdminDashboardComponent implements OnInit {
 
     this.socketService.getSocketId().subscribe(
       (data) => {
-        console.log(`socket id is`);
-        console.log(data);
+        //console.log(`socket id is`);
+        //console.log(data);
       }
     )
   }
 
   public getOnlineUserSocketId = (userId = this.userId) => {
 
-    console.log(this.userList);
+    //console.log(this.userList);
 
     for (let x in this.userList) {
-      console.log(x);
+      //console.log(x);
       let userIdInList = this.userList[x].userId;
-      console.log(userIdInList);
+      //console.log(userIdInList);
       if (userIdInList === userId) {
         this.userSocketId = this.userList[x].socketId;
         break;
       }
     }
-    console.log(`The socket Id of user is ${this.userSocketId}`);
+    //console.log(`The socket Id of user is ${this.userSocketId}`);
   }
 
 
@@ -970,13 +970,13 @@ export class AdminDashboardComponent implements OnInit {
   public sendReminderOnEventsSetByAdmin = () => {
     this.adminName = Cookie.get('userName');
     this.adminId = Cookie.get('userId');
-    console.log(this.adminId)
+    //console.log(this.adminId)
     this.appService.getEventsAssociatedWithAdmin(this.adminId).subscribe(
       (Response) => {
         if (Response.status == 200) {
           this.toastr.success(`user events set by Admin user ${this.adminName} fetched Successfully`, 'Success!');
-          console.log(Response);
-          console.log(this.users);
+          //console.log(Response);
+          //console.log(this.users);
           let AdminSetEvents = Response.data;
           let eventsBeforeTodayList = [];
           for (let adminEvent of AdminSetEvents) {
@@ -1002,11 +1002,11 @@ export class AdminDashboardComponent implements OnInit {
                 }
                 this.socketService.sendReminderEmail(emailData).subscribe(
                   data => {
-                    console.log(data);
+                    //console.log(data);
                     this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
                   },
                   error => {
-                    console.log(error);
+                    //console.log(error);
                     this.toastr.error('Some error occured', 'Error');
                   });
 
@@ -1021,7 +1021,7 @@ export class AdminDashboardComponent implements OnInit {
         }
       },
       (errorMessage) => {
-        console.log(errorMessage);
+        //console.log(errorMessage);
         this.toastr.error('some error occured')
         this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
       }

@@ -93,21 +93,21 @@ export class SignUpComponent implements OnInit {
 
   phoneCountryCode: any = (value: any = "IN") => {
 
-    console.log(value);
+    //console.log(value);
     this.countryKey = value;
-    console.log(this.countryKey);
+    //console.log(this.countryKey);
     this.phoneCode = this.countryPhoneCode[this.countryKey];
     return this.phoneCode;
   }
 
   CountryCode: any = (value: any = "IN") => {
-    console.log(value);
+    //console.log(value);
     this.countryCode = this.countryShortName[value];
     return this.countryCode;
   }
 
   setUserType: any = (value: any) => {
-    console.log(value);
+    //console.log(value);
     this.userType = value;
     return this.userType;
 
