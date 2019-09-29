@@ -171,6 +171,7 @@ export class AdminDashboardComponent implements OnInit {
     this.getUser();
     this.getSocketUserId();
     this.getOnlineUserList();
+    this.updateEvents();
     this.getUpdatesFromOtherAdmin();
 
     setInterval(() => {
@@ -555,6 +556,7 @@ export class AdminDashboardComponent implements OnInit {
           //console.log(data);
           // this.toastr.success('got the EventId', 'Success!');
           this.eventId = data;
+          
           //console.log(this.eventId);
           // this.events = [
           //   ...this.events,
@@ -635,6 +637,7 @@ export class AdminDashboardComponent implements OnInit {
           }
 
           this.notifyUpdatesToUser(dataForNotify);
+          this.updateEvents();
         },
           (errorMessage) => {
             //console.log("Some error occured");
