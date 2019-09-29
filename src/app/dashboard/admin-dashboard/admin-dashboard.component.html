@@ -224,7 +224,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal"
               (click)="clearModalValues()">Close</button>
-            <button type="submit" class="btn btn-primary" (click)="addNewEvent()">Save</button>
+            <button type="submit" class="btn btn-primary" (click)="addNewEvent();close();">Save</button>
           </div>
         </div>
       </div>
@@ -296,7 +296,7 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal"
             (click)="clearModalValues(); close();">Close</button>
           <button type="button" class="btn btn-danger" (click)="deleteEvent()">Delete</button>
-          <button type="submit" class="btn btn-primary" (click)="saveEdit()">Save changes</button>
+          <button type="submit" class="btn btn-primary" (click)="saveEdit();close();">Save changes</button>
         </div>
         <div class="modal-footer text-muted">
           Added by {{modalData.adminName}} - Admin
