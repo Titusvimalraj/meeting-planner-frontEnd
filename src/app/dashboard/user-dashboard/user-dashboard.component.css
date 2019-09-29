@@ -1,8 +1,4 @@
-mwl-calendar-month-cell,
-mwl-calendar-day-view-hour-segment, 
-mwl-calendar-week-view-hour-segment {
-  touch-action: pan-x pan-y !important;
-}
+
 
   h3 {
       margin: 0 0 10px;

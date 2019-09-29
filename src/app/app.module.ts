@@ -70,10 +70,17 @@ import { ProfileComponent } from './dashboard/profile/profile.component';
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 export class CustomHammerConfig extends HammerGestureConfig  {
-    overrides = <any>{
-        'pinch': { enable: false },
-        'rotate': { enable: false }
-    }
+      overrides = {
+        pan: {
+            direction: 6
+        },
+        pinch: {
+            enable: false
+        },
+        rotate: {
+            enable: false
+        }
+    };
 }
 
 @NgModule({
