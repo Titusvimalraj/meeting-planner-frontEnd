@@ -171,7 +171,7 @@ export class AdminDashboardComponent implements OnInit {
     this.getUser();
     this.getSocketUserId();
     this.getOnlineUserList();
-    this.updateEvents();
+
     // this.getUpdatesFromOtherAdmin();
 
     setInterval(() => {
