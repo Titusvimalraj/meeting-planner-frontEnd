@@ -684,6 +684,7 @@ export class UserDashboardComponent implements OnInit {
 
     this.socketService.getUpdatesFromAdmin(this.userId).subscribe((data) => {
       //getting message from admin.
+      this.events=[];
       this.updateEvents();
       this.toastr.info("Update From Admin!", data.message);
     });

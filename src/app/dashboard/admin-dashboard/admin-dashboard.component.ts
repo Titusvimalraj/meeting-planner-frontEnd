@@ -172,7 +172,7 @@ export class AdminDashboardComponent implements OnInit {
     this.getSocketUserId();
     this.getOnlineUserList();
     this.updateEvents();
-    this.getUpdatesFromOtherAdmin();
+    // this.getUpdatesFromOtherAdmin();
 
     setInterval(() => {
       this.meetingReminder();// function to send the reminder to the user
@@ -557,28 +557,28 @@ export class AdminDashboardComponent implements OnInit {
           // this.toastr.success('got the EventId', 'Success!');
           this.eventId = data;
           
-          //console.log(this.eventId);
-          // this.events = [
-          //   ...this.events,
-          //   {
-          //     eventId: this.eventId,
-          //     userId: eventObj.userId,
-          //     adminName: eventObj.adminName,
-          //     adminId: eventObj.adminId,
-          //     start: new Date(eventObj.start),
-          //     end: new Date(eventObj.end),
-          //     title: eventObj.title,
-          //     color: { primary: eventObj.color.primary, secondary: eventObj.color.secondary },
-          //     actions: eventObj.actions,
-          //     allDay: eventObj.allDay,
-          //     draggable: false,
-          //     resizable: {
-          //       beforeStart: false,
-          //       afterEnd: false
-          //     },
-          //     reminder: true
-          //   }
-          // ];
+          console.log(this.eventId);
+          this.events = [
+            ...this.events,
+            {
+              eventId: this.eventId,
+              userId: eventObj.userId,
+              adminName: eventObj.adminName,
+              adminId: eventObj.adminId,
+              start: new Date(eventObj.start),
+              end: new Date(eventObj.end),
+              title: eventObj.title,
+              color: { primary: eventObj.color.primary, secondary: eventObj.color.secondary },
+              actions: eventObj.actions,
+              allDay: eventObj.allDay,
+              draggable: false,
+              resizable: {
+                beforeStart: false,
+                afterEnd: false
+              },
+              reminder: true
+            }
+          ];
           let x = document.getElementById("modalCloseButton");
           //console.log(x);
           x.click();
@@ -1103,13 +1103,13 @@ export class AdminDashboardComponent implements OnInit {
       )
     }, 2000);
   }
-  public getUpdatesFromOtherAdmin = () => {
+  // public getUpdatesFromOtherAdmin = () => {
 
-    this.socketService.getUpdatesFromAdmin(this.userId).subscribe((data) => {
-      //getting message from other admin.
-      this.updateEvents();
-      this.toastr.info("Update!", data.message);
-    });
-  }
+  //   this.socketService.getUpdatesFromAdmin(this.userId).subscribe((data) => {
+  //     //getting message from other admin.
+  //     this.updateEvents();
+  //     this.toastr.info("Update!", data.message);
+  //   });
+  // }
 
 }
