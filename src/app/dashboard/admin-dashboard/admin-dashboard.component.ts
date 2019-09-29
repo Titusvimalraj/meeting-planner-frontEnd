@@ -834,11 +834,11 @@ export class AdminDashboardComponent implements OnInit {
             this._router.navigate(['/']);
 
           } else {
-
+            //if already logged out
             this.progressBar = false;
             this.toastr.error(apiResponse.message)
             this._router.navigate(['/']);
-            
+
           } // end condition
 
         }, (errorMessage) => {
