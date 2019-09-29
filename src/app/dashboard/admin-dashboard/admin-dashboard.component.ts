@@ -861,15 +861,8 @@ export class AdminDashboardComponent implements OnInit {
   public getUser = () => {
     this.appService.getExistingUserList().subscribe(Response => {
       //console.log(Response);
-      let datas = Response.data;
-      for(let data of datas){
-        if(data.userId==this.userId){
-          continue;
-        }
-        this.users.push(data);
-      }
-      // this.users = Response.data;
-      
+
+      this.users = Response.data;
       //console.log(this.users)
 
       this.toastr.success('Users retrieved successfully', 'Success!');
