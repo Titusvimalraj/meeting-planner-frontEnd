@@ -276,7 +276,10 @@ export class AdminDashboardComponent implements OnInit {
               userId: this.userId
             }
 
-            this.notifyUpdatesToUser(dataForNotify);
+            if(this.userId!==this.adminId){
+              this.notifyUpdatesToUser(dataForNotify);
+            }
+            
           },
           (errorMessage) => {
             //console.log("Some error occured");
@@ -335,7 +338,10 @@ export class AdminDashboardComponent implements OnInit {
             userId: this.userId
           }
 
-          this.notifyUpdatesToUser(dataForNotify);
+          if(this.userId!==this.adminId){
+              this.notifyUpdatesToUser(dataForNotify);
+            }
+            
         },
         (errorMessage) => {
           //console.log("Some error occured");
@@ -579,9 +585,14 @@ export class AdminDashboardComponent implements OnInit {
               reminder: true
             }
           ];
-          let x = document.getElementById("modalCloseButton");
-          //console.log(x);
-          x.click();
+          try {
+            let x = document.getElementById("modalCloseButton");
+            //console.log(x);
+            x.click();  
+          } catch (error) {
+            
+          }
+          
 
           let newEventObj = {
             eventId: this.eventId,
@@ -636,7 +647,10 @@ export class AdminDashboardComponent implements OnInit {
             userId: this.userId
           }
 
-          this.notifyUpdatesToUser(dataForNotify);
+          if(this.userId!==this.adminId){
+            this.notifyUpdatesToUser(dataForNotify);
+          }
+          
         },
           (errorMessage) => {
             //console.log("Some error occured");
@@ -758,7 +772,10 @@ export class AdminDashboardComponent implements OnInit {
               userId: this.userId
             }
 
-            this.notifyUpdatesToUser(dataForNotify);
+            if(this.userId!==this.adminId){
+              this.notifyUpdatesToUser(dataForNotify);
+            }
+            
           },
           (errorMessage) => {
             //console.log("Some error occured");
@@ -1119,13 +1136,13 @@ export class AdminDashboardComponent implements OnInit {
       )
     }, 2000);
   }
-  // public getUpdatesFromOtherAdmin = () => {
+  public getUpdatesFromOtherAdmin = () => {
 
-  //   this.socketService.getUpdatesFromAdmin(this.userId).subscribe((data) => {
-  //     //getting message from other admin.
-  //     this.updateEvents();
-  //     this.toastr.info("Update!", data.message);
-  //   });
-  // }
+    this.socketService.getUpdatesFromAdmin(this.userId).subscribe((data) => {
+      //getting message from other admin.
+      this.updateEvents();
+      this.toastr.info("Update!", data.message);
+    });
+  }
 
 }
