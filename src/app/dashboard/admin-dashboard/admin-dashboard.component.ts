@@ -637,7 +637,6 @@ export class AdminDashboardComponent implements OnInit {
           }
 
           this.notifyUpdatesToUser(dataForNotify);
-          this.updateEvents();
         },
           (errorMessage) => {
             //console.log("Some error occured");
