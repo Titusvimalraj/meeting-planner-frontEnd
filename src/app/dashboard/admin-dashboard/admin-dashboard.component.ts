@@ -864,7 +864,17 @@ export class AdminDashboardComponent implements OnInit {
 
       this.users = Response.data;
       //console.log(this.users)
+      let indexValue;
+      for (let x in this.users) {
+        //console.log(`save edit users index ${x}`);
+        if (this.userId == this.users[x].userId) {
+          indexValue = x;
+          break;
+        }
+      }
 
+      this.users.splice(indexValue,1);
+      
       this.toastr.success('Users retrieved successfully', 'Success!');
     },
       (errorMessage) => {
