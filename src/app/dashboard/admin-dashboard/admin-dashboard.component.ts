@@ -437,7 +437,7 @@ export class AdminDashboardComponent implements OnInit {
             this.refresh.next();
           } else {
 
-            // //console.log( `progress bar is ${this.progressBar}`)
+            //console.log( `progress bar is ${this.progressBar}`)
             this.toastr.warning('No Events available')
 
           }
@@ -453,7 +453,7 @@ export class AdminDashboardComponent implements OnInit {
         }
       );
     }, 2000);
-    // //console.log( `Outside progress bar is ${this.progressBar}`)
+    //console.log( `Outside progress bar is ${this.progressBar}`)
   }
 
   refresh: Subject<any> = new Subject();
@@ -563,7 +563,7 @@ export class AdminDashboardComponent implements OnInit {
           // this.toastr.success('got the EventId', 'Success!');
           this.eventId = data;
 
-          console.log(this.eventId);
+          //console.log(this.eventId);
           this.events = [
             ...this.events,
             {
@@ -883,8 +883,8 @@ export class AdminDashboardComponent implements OnInit {
       //console.log(this.users)
       setTimeout(() => {
         let indexValue;
-        // console.log(this.users);
-        // console.log(typeof this.users);
+        //console.log(this.users);
+        //console.log(typeof this.users);
         for (let x in this.users) {
           //console.log(`save edit users index ${x}`);
           if (this.userId == this.users[x].userId) {
@@ -892,14 +892,14 @@ export class AdminDashboardComponent implements OnInit {
             break;
           }
         }
-        // console.log(`index value is ${indexValue}`);
+        //console.log(`index value is ${indexValue}`);
         try {
           this.users.splice(indexValue, 1);
         } catch (error) {
 
         }
 
-        // console.log(this.users);
+        //console.log(this.users);
       }, 500);
 
 
