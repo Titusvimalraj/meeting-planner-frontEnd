@@ -276,10 +276,10 @@ export class AdminDashboardComponent implements OnInit {
               userId: this.userId
             }
 
-            if(this.userId!==this.adminId){
+            if (this.userId !== this.adminId) {
               this.notifyUpdatesToUser(dataForNotify);
             }
-            
+
           },
           (errorMessage) => {
             //console.log("Some error occured");
@@ -338,10 +338,10 @@ export class AdminDashboardComponent implements OnInit {
             userId: this.userId
           }
 
-          if(this.userId!==this.adminId){
-              this.notifyUpdatesToUser(dataForNotify);
-            }
-            
+          if (this.userId !== this.adminId) {
+            this.notifyUpdatesToUser(dataForNotify);
+          }
+
         },
         (errorMessage) => {
           //console.log("Some error occured");
@@ -562,7 +562,7 @@ export class AdminDashboardComponent implements OnInit {
           //console.log(data);
           // this.toastr.success('got the EventId', 'Success!');
           this.eventId = data;
-          
+
           console.log(this.eventId);
           this.events = [
             ...this.events,
@@ -588,11 +588,11 @@ export class AdminDashboardComponent implements OnInit {
           try {
             let x = document.getElementById("modalCloseButton");
             //console.log(x);
-            x.click();  
+            x.click();
           } catch (error) {
-            
+
           }
-          
+
 
           let newEventObj = {
             eventId: this.eventId,
@@ -647,10 +647,10 @@ export class AdminDashboardComponent implements OnInit {
             userId: this.userId
           }
 
-          if(this.userId!==this.adminId){
+          if (this.userId !== this.adminId) {
             this.notifyUpdatesToUser(dataForNotify);
           }
-          
+
         },
           (errorMessage) => {
             //console.log("Some error occured");
@@ -772,10 +772,10 @@ export class AdminDashboardComponent implements OnInit {
               userId: this.userId
             }
 
-            if(this.userId!==this.adminId){
+            if (this.userId !== this.adminId) {
               this.notifyUpdatesToUser(dataForNotify);
             }
-            
+
           },
           (errorMessage) => {
             //console.log("Some error occured");
@@ -881,10 +881,10 @@ export class AdminDashboardComponent implements OnInit {
 
       this.users = Response.data;
       //console.log(this.users)
-      setTimeout(()=>{
+      setTimeout(() => {
         let indexValue;
-        console.log(this.users);
-        console.log(typeof this.users);
+        // console.log(this.users);
+        // console.log(typeof this.users);
         for (let x in this.users) {
           //console.log(`save edit users index ${x}`);
           if (this.userId == this.users[x].userId) {
@@ -892,12 +892,17 @@ export class AdminDashboardComponent implements OnInit {
             break;
           }
         }
-        console.log(`index value is ${indexValue}`);
-        this.users.splice(indexValue,1);
-        console.log(this.users);
-      },500);
-      
-      
+        // console.log(`index value is ${indexValue}`);
+        try {
+          this.users.splice(indexValue, 1);
+        } catch (error) {
+
+        }
+
+        // console.log(this.users);
+      }, 500);
+
+
       this.toastr.success('Users retrieved successfully', 'Success!');
     },
       (errorMessage) => {
