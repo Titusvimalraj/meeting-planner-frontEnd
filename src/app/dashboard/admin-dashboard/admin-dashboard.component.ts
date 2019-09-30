@@ -245,39 +245,38 @@ export class AdminDashboardComponent implements OnInit {
             //console.log(data);
 
             this.toastr.success('Event Deleted successfully', 'Success!');
+            let indexValue;
+            for (let x in this.users) {
+              if (this.userId == this.users[x].userId) {
+                indexValue = x;
+                break;
+              }
+            }
+            let emailData = {
+              email: this.users[indexValue].email,
+              name: this.users[indexValue].fullName,
+              subject: `${event.adminName}-Admin has cancelled your meeting: ${event.title}`,
+              html: `<h3> Meeting cancelled </h3>
+                    <br> Hi , ${this.users[indexValue].fullName} .
+                    <br> ${event.adminName}-Admin has cancelled your meeting: ${event.title}.
+                    `
+            }
+            this.socketService.sendEmail(emailData).subscribe(
+              data => {
+                //console.log(data);
+                this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
+              },
+              error => {
+                //console.log(error);
+                this.toastr.error('Some error occured', 'Error');
+              });
+
+            let dataForNotify = {
+              message: `Hi, ${this.adminName}-Admin has cancelled the meeting - ${event.title}. Please Check your Calendar/Email`,
+              userId: this.userId
+            }
 
             if (this.userId !== this.adminId) {
-              let indexValue;
-              for (let x in this.users) {
-                if (this.userId == this.users[x].userId) {
-                  indexValue = x;
-                  break;
-                }
-              }
-
-              let emailData = {
-                email: this.users[indexValue].email,
-                name: this.users[indexValue].fullName,
-                subject: `${event.adminName}-Admin has cancelled your meeting: ${event.title}`,
-                html: `<h3> Meeting cancelled </h3>
-                      <br> Hi , ${this.users[indexValue].fullName} .
-                      <br> ${event.adminName}-Admin has cancelled your meeting: ${event.title}.
-                      `
-              }
-              this.socketService.sendEmail(emailData).subscribe(
-                data => {
-                  //console.log(data);
-                  this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
-                },
-                error => {
-                  //console.log(error);
-                  this.toastr.error('Some error occured', 'Error');
-                });
-
-              let dataForNotify = {
-                message: `Hi, ${this.adminName}-Admin has cancelled the meeting - ${event.title}. Please Check your Calendar/Email`,
-                userId: this.userId
-              }
               this.notifyUpdatesToUser(dataForNotify);
             }
 
@@ -296,71 +295,50 @@ export class AdminDashboardComponent implements OnInit {
   ];
 
   public deleteEvent = () => {
-
-
     //console.log(this.modalData.eventId);
     this.progressBar = true;
-
-    try {
-
-      let closeButtonForModal = document.getElementById("editModalCloseButton");
-      //console.log(closeButtonForModal);
-      closeButtonForModal.click();
-    } catch (error) {
-
-    }
-    try {
-      let closeViewModalButton = document.getElementById("viewModalCloseButton");
-      //console.log(closeViewModalButton);
-      closeViewModalButton.click();
-    } catch (error) {
-
-    }
-
     setTimeout(() => {
       this.appService.deleteThisEvent(this.modalData.eventId, event).subscribe(
         data => {
           //console.log(data);
           this.progressBar = false;
           this.toastr.success('Event Deleted successfully', 'Success!');
+          let indexValue;
+          for (let x in this.users) {
+            //console.log(`delete event users index ${x}`);
+            if (this.userId == this.users[x].userId) {
+              indexValue = x;
+              break;
+            }
+          }
+          setTimeout(() => {
+            let emailData = {
+              email: this.users[indexValue].email,
+              name: this.users[indexValue].fullName,
+              subject: `${this.adminName}-Admin has cancelled your meeting: ${this.modalData.title}`,
+              html: `<h3> Meeting cancelled </h3>
+                    <br> Hi , ${this.users[indexValue].fullName} .
+                    <br> ${this.adminName}-Admin has cancelled your meeting: ${this.modalData.title}.
+                    `
+            }
+            this.socketService.sendEmail(emailData).subscribe(
+              data => {
+                //console.log(data);
+                this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
+              },
+              (errorMessage) => {
+                //console.log(errorMessage);
+                this.toastr.error('Some error occured', 'Error');
+                this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
+              });
+          }, 2000);
 
+          let dataForNotify = {
+            message: `Hi, ${this.adminName}-Admin has cancelled the meeting - ${this.modalData.title}. Please Check your Calendar/Email`,
+            userId: this.userId
+          }
 
           if (this.userId !== this.adminId) {
-            let indexValue;
-            for (let x in this.users) {
-              //console.log(`delete event users index ${x}`);
-              if (this.userId == this.users[x].userId) {
-                indexValue = x;
-                break;
-              }
-            }
-            setTimeout(() => {
-              let emailData = {
-                email: this.users[indexValue].email,
-                name: this.users[indexValue].fullName,
-                subject: `${this.adminName}-Admin has cancelled your meeting: ${this.modalData.title}`,
-                html: `<h3> Meeting cancelled </h3>
-                      <br> Hi , ${this.users[indexValue].fullName} .
-                      <br> ${this.adminName}-Admin has cancelled your meeting: ${this.modalData.title}.
-                      `
-              }
-              this.socketService.sendEmail(emailData).subscribe(
-                data => {
-                  //console.log(data);
-                  this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
-                },
-                (errorMessage) => {
-                  //console.log(errorMessage);
-                  this.toastr.error('Some error occured', 'Error');
-                  this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
-                });
-            }, 2000);
-
-            let dataForNotify = {
-              message: `Hi, ${this.adminName}-Admin has cancelled the meeting - ${this.modalData.title}. Please Check your Calendar/Email`,
-              userId: this.userId
-            }
-
             this.notifyUpdatesToUser(dataForNotify);
           }
 
@@ -377,6 +355,22 @@ export class AdminDashboardComponent implements OnInit {
 
       this.events = [];
       this.getEvents();
+
+      try {
+
+        let closeButtonForModal = document.getElementById("editModalCloseButton");
+        //console.log(closeButtonForModal);
+        closeButtonForModal.click();
+      } catch (error) {
+
+      }
+      try {
+        let closeViewModalButton = document.getElementById("viewModalCloseButton");
+        //console.log(closeViewModalButton);
+        closeViewModalButton.click();
+      } catch (error) {
+
+      }
     })
 
 
@@ -525,34 +519,24 @@ export class AdminDashboardComponent implements OnInit {
 
   public addNewEvent: any = () => {
     this.progressBar = true;
-
-
-    if (!(this.eventTitle)) {
-      this.progressBar = false;
-      this.toastr.info("please enter the Title", "Info !");
-    } else if (!(this.eventStart || this.eventAllDay)) {
-      this.progressBar = false;
-      this.toastr.info("please select all day event or the start date", "Info !");
-    } else if (!(this.eventEnd || this.eventAllDay)) {
-      this.progressBar = false;
-      this.toastr.info("please select all day event or the end date", "Info !");
-    } else if (!(this.eventColorPrimary)) {
-      this.progressBar = false;
-      this.toastr.info("please select a colour of your choice to indicate an event", "Info !");
-    } else if (!(this.eventColorSecondary)) {
-      this.progressBar = false;
-      this.toastr.info("please select a colour of your choice to indicate an event", "Info !");
-    }
-    else {
-      try {
-        let x = document.getElementById("modalCloseButton");
-        //console.log(x);
-        x.click();
-      } catch (error) {
-
+    setTimeout(() => {
+      if (!(this.eventTitle)) {
+        this.progressBar = false;
+        this.toastr.info("please enter the Title", "Info !");
+      } else if (!(this.eventStart || this.eventAllDay)) {
+        this.progressBar = false;
+        this.toastr.info("please select all day event or the start date", "Info !");
+      } else if (!(this.eventEnd || this.eventAllDay)) {
+        this.progressBar = false;
+        this.toastr.info("please select all day event or the end date", "Info !");
+      } else if (!(this.eventColorPrimary)) {
+        this.progressBar = false;
+        this.toastr.info("please select a colour of your choice to indicate an event", "Info !");
+      } else if (!(this.eventColorSecondary)) {
+        this.progressBar = false;
+        this.toastr.info("please select a colour of your choice to indicate an event", "Info !");
       }
-
-      setTimeout(() => {
+      else {
         this.progressBar = false;
         let eventObj = {
           userId: this.userId,
@@ -601,6 +585,13 @@ export class AdminDashboardComponent implements OnInit {
               reminder: true
             }
           ];
+          try {
+            let x = document.getElementById("modalCloseButton");
+            //console.log(x);
+            x.click();
+          } catch (error) {
+
+          }
 
 
           let newEventObj = {
@@ -623,41 +614,40 @@ export class AdminDashboardComponent implements OnInit {
           }
 
           //console.log(`new event object is ${newEventObj}`)
+          let indexValue;
+          for (let x in this.users) {
+            //console.log(`add event users index ${x}`);
+            if (this.userId == this.users[x].userId) {
+              indexValue = x;
+              break;
+            }
+          }
+          setTimeout(() => {
+            let emailData = {
+              email: this.users[indexValue].email,
+              name: this.users[indexValue].fullName,
+              subject: `${this.adminName}-Admin has added your meeting: ${newEventObj.title}`,
+              html: `<h3> Admin added a new meeting </h3>
+                        <br> Hi , ${this.users[indexValue].fullName} .
+                        <br> ${this.adminName}-Admin has added your meeting: ${newEventObj.title}.
+                        `
+            }
+            this.socketService.sendEmail(emailData).subscribe(
+              data => {
+                //console.log(data);
+                this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
+              },
+              error => {
+                //console.log(error);
+                this.toastr.error('Some error occured', 'Error');
+              });
+          }, 2000);
+          let dataForNotify = {
+            message: `Hi, ${this.adminName}-Admin has added the meeting - ${newEventObj.title}. Please Check your Calendar/Email`,
+            userId: this.userId
+          }
 
           if (this.userId !== this.adminId) {
-            let indexValue;
-            for (let x in this.users) {
-              //console.log(`add event users index ${x}`);
-              if (this.userId == this.users[x].userId) {
-                indexValue = x;
-                break;
-              }
-            }
-            setTimeout(() => {
-              let emailData = {
-                email: this.users[indexValue].email,
-                name: this.users[indexValue].fullName,
-                subject: `${this.adminName}-Admin has added your meeting: ${newEventObj.title}`,
-                html: `<h3> Admin added a new meeting </h3>
-                          <br> Hi , ${this.users[indexValue].fullName} .
-                          <br> ${this.adminName}-Admin has added your meeting: ${newEventObj.title}.
-                          `
-              }
-              this.socketService.sendEmail(emailData).subscribe(
-                data => {
-                  //console.log(data);
-                  this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
-                },
-                error => {
-                  //console.log(error);
-                  this.toastr.error('Some error occured', 'Error');
-                });
-            }, 2000);
-
-            let dataForNotify = {
-              message: `Hi, ${this.adminName}-Admin has added the meeting - ${newEventObj.title}. Please Check your Calendar/Email`,
-              userId: this.userId
-            }
             this.notifyUpdatesToUser(dataForNotify);
           }
 
@@ -669,9 +659,8 @@ export class AdminDashboardComponent implements OnInit {
             this.toastr.error('Some error occured', 'Error');
             this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
           });
-      }, 1000)
-    }
-
+      }
+    }, 2000)
     this.refresh.next();
   }
 
@@ -721,7 +710,6 @@ export class AdminDashboardComponent implements OnInit {
 
   public saveEdit = () => {
     this.progressBar = true;
-
     if (!(this.modalData.title)) {
       this.progressBar = false;
       this.toastr.info("please enter the Title", "Info !");
@@ -738,16 +726,6 @@ export class AdminDashboardComponent implements OnInit {
       this.progressBar = false;
       this.toastr.info("please select secondary colour of your choice to indicate an event", "Info !");
     } else {
-
-      try {
-        let closeButtonForModal = document.getElementById("editModalCloseButton");
-        //console.log(closeButtonForModal);
-        closeButtonForModal.click();
-
-      } catch (error) {
-
-      }
-
       setTimeout(() => {
         this.progressBar = false;
         this.appService.editTheEvent(this.modalData.eventId, this.modalData).subscribe(
@@ -760,43 +738,41 @@ export class AdminDashboardComponent implements OnInit {
               this.getEvents();
             }
               , 2000)
+            let indexValue;
+            for (let x in this.users) {
+              //console.log(`save edit users index ${x}`);
+              if (this.userId == this.users[x].userId) {
+                indexValue = x;
+                break;
+              }
+            }
+            setTimeout(() => {
+              let emailData = {
+                email: this.users[indexValue].email,
+                name: this.users[indexValue].fullName,
+                subject: `${this.adminName}-Admin has edited your meeting: ${this.modalData.title}`,
+                html: `<h3> Meeting Edited </h3>
+                        <br> Hi , ${this.users[indexValue].fullName} .
+                        <br> ${this.adminName}-Admin has edited your meeting: ${this.modalData.title}.
+                        `
+              }
+              this.socketService.sendEmail(emailData).subscribe(
+                data => {
+                  //console.log(data);
+                  this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
+                },
+                error => {
+                  //console.log(error);
+                  this.toastr.error('Some error occured', 'Error');
+                });
+            }, 2000);
 
+            let dataForNotify = {
+              message: `Hi, ${this.adminName}-Admin has edited the meeting - ${this.modalData.title}. Please Check your Calendar/Email`,
+              userId: this.userId
+            }
 
             if (this.userId !== this.adminId) {
-              let indexValue;
-              for (let x in this.users) {
-                //console.log(`save edit users index ${x}`);
-                if (this.userId == this.users[x].userId) {
-                  indexValue = x;
-                  break;
-                }
-              }
-              setTimeout(() => {
-                let emailData = {
-                  email: this.users[indexValue].email,
-                  name: this.users[indexValue].fullName,
-                  subject: `${this.adminName}-Admin has edited your meeting: ${this.modalData.title}`,
-                  html: `<h3> Meeting Edited </h3>
-                          <br> Hi , ${this.users[indexValue].fullName} .
-                          <br> ${this.adminName}-Admin has edited your meeting: ${this.modalData.title}.
-                          `
-                }
-                this.socketService.sendEmail(emailData).subscribe(
-                  data => {
-                    //console.log(data);
-                    this.toastr.success(`Sent Email successfully to ${data.name}`, 'Success!');
-                  },
-                  error => {
-                    //console.log(error);
-                    this.toastr.error('Some error occured', 'Error');
-                  });
-              }, 2000);
-
-              let dataForNotify = {
-                message: `Hi, ${this.adminName}-Admin has edited the meeting - ${this.modalData.title}. Please Check your Calendar/Email`,
-                userId: this.userId
-              }
-
               this.notifyUpdatesToUser(dataForNotify);
             }
 
@@ -811,6 +787,14 @@ export class AdminDashboardComponent implements OnInit {
 
       }, 2000)
 
+      try {
+        let closeButtonForModal = document.getElementById("editModalCloseButton");
+        //console.log(closeButtonForModal);
+        closeButtonForModal.click();
+
+      } catch (error) {
+
+      }
 
     }
   }
@@ -1094,7 +1078,6 @@ export class AdminDashboardComponent implements OnInit {
     this.socketService.notifyUpdates(data);
 
   }//end notifyUpdatesToUser
-
 
   public updateEvents = (userId = this.userId) => {
     this.events = [];
