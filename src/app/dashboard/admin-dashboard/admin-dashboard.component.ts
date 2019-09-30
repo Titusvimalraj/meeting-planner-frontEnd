@@ -296,8 +296,27 @@ export class AdminDashboardComponent implements OnInit {
   ];
 
   public deleteEvent = () => {
+
+
     //console.log(this.modalData.eventId);
     this.progressBar = true;
+
+    try {
+
+      let closeButtonForModal = document.getElementById("editModalCloseButton");
+      //console.log(closeButtonForModal);
+      closeButtonForModal.click();
+    } catch (error) {
+
+    }
+    try {
+      let closeViewModalButton = document.getElementById("viewModalCloseButton");
+      //console.log(closeViewModalButton);
+      closeViewModalButton.click();
+    } catch (error) {
+
+    }
+
     setTimeout(() => {
       this.appService.deleteThisEvent(this.modalData.eventId, event).subscribe(
         data => {
@@ -358,22 +377,6 @@ export class AdminDashboardComponent implements OnInit {
 
       this.events = [];
       this.getEvents();
-
-      try {
-
-        let closeButtonForModal = document.getElementById("editModalCloseButton");
-        //console.log(closeButtonForModal);
-        closeButtonForModal.click();
-      } catch (error) {
-
-      }
-      try {
-        let closeViewModalButton = document.getElementById("viewModalCloseButton");
-        //console.log(closeViewModalButton);
-        closeViewModalButton.click();
-      } catch (error) {
-
-      }
     })
 
 
@@ -522,24 +525,34 @@ export class AdminDashboardComponent implements OnInit {
 
   public addNewEvent: any = () => {
     this.progressBar = true;
-    setTimeout(() => {
-      if (!(this.eventTitle)) {
-        this.progressBar = false;
-        this.toastr.info("please enter the Title", "Info !");
-      } else if (!(this.eventStart || this.eventAllDay)) {
-        this.progressBar = false;
-        this.toastr.info("please select all day event or the start date", "Info !");
-      } else if (!(this.eventEnd || this.eventAllDay)) {
-        this.progressBar = false;
-        this.toastr.info("please select all day event or the end date", "Info !");
-      } else if (!(this.eventColorPrimary)) {
-        this.progressBar = false;
-        this.toastr.info("please select a colour of your choice to indicate an event", "Info !");
-      } else if (!(this.eventColorSecondary)) {
-        this.progressBar = false;
-        this.toastr.info("please select a colour of your choice to indicate an event", "Info !");
+
+
+    if (!(this.eventTitle)) {
+      this.progressBar = false;
+      this.toastr.info("please enter the Title", "Info !");
+    } else if (!(this.eventStart || this.eventAllDay)) {
+      this.progressBar = false;
+      this.toastr.info("please select all day event or the start date", "Info !");
+    } else if (!(this.eventEnd || this.eventAllDay)) {
+      this.progressBar = false;
+      this.toastr.info("please select all day event or the end date", "Info !");
+    } else if (!(this.eventColorPrimary)) {
+      this.progressBar = false;
+      this.toastr.info("please select a colour of your choice to indicate an event", "Info !");
+    } else if (!(this.eventColorSecondary)) {
+      this.progressBar = false;
+      this.toastr.info("please select a colour of your choice to indicate an event", "Info !");
+    }
+    else {
+      try {
+        let x = document.getElementById("modalCloseButton");
+        //console.log(x);
+        x.click();
+      } catch (error) {
+
       }
-      else {
+
+      setTimeout(() => {
         this.progressBar = false;
         let eventObj = {
           userId: this.userId,
@@ -588,13 +601,6 @@ export class AdminDashboardComponent implements OnInit {
               reminder: true
             }
           ];
-          try {
-            let x = document.getElementById("modalCloseButton");
-            //console.log(x);
-            x.click();
-          } catch (error) {
-
-          }
 
 
           let newEventObj = {
@@ -663,8 +669,9 @@ export class AdminDashboardComponent implements OnInit {
             this.toastr.error('Some error occured', 'Error');
             this.appService.navigateToErrorPage(`/${GlobalConfig.apiVersion}/error`, errorMessage);
           });
-      }
-    }, 2000)
+      }, 1000)
+    }
+
     this.refresh.next();
   }
 
@@ -714,6 +721,7 @@ export class AdminDashboardComponent implements OnInit {
 
   public saveEdit = () => {
     this.progressBar = true;
+
     if (!(this.modalData.title)) {
       this.progressBar = false;
       this.toastr.info("please enter the Title", "Info !");
@@ -730,6 +738,16 @@ export class AdminDashboardComponent implements OnInit {
       this.progressBar = false;
       this.toastr.info("please select secondary colour of your choice to indicate an event", "Info !");
     } else {
+
+      try {
+        let closeButtonForModal = document.getElementById("editModalCloseButton");
+        //console.log(closeButtonForModal);
+        closeButtonForModal.click();
+
+      } catch (error) {
+
+      }
+
       setTimeout(() => {
         this.progressBar = false;
         this.appService.editTheEvent(this.modalData.eventId, this.modalData).subscribe(
@@ -793,14 +811,6 @@ export class AdminDashboardComponent implements OnInit {
 
       }, 2000)
 
-      try {
-        let closeButtonForModal = document.getElementById("editModalCloseButton");
-        //console.log(closeButtonForModal);
-        closeButtonForModal.click();
-
-      } catch (error) {
-
-      }
 
     }
   }
