@@ -680,9 +680,8 @@ export class AdminDashboardComponent implements OnInit {
     this.eventStart = null
     this.eventEnd = null
   }
-
+//view event modal
   public viewEvent = ({ event }: { event: CalendarEvent }): void => {
-
 
     this.modalData = {
       eventId: event.eventId,
